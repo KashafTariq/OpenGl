@@ -1,0 +1,51 @@
+#include <stdlib.h>
+#include <GL\freeglut.h>
+#include <math.h>
+#include <iostream>
+
+double r = 0.0;
+void init()
+{
+
+	glClearColor(255.0f, 255.0f, 255.0f, 1.0f);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+
+}
+
+
+void timer(int i) {
+	glClear(GL_COLOR_BUFFER_BIT);
+	r = r + 10;
+	glutPostRedisplay();
+	glutTimerFunc(100, timer, 0);
+
+}
+
+void display() {
+
+	glColor3f(0.0, 0.0, 0.0);
+	glPushMatrix();
+	glLoadIdentity();
+	glRotatef(r, 1, 1, 0);
+	glutWireCube(0.7);
+	glPopMatrix();
+	glutSwapBuffers();
+
+}
+
+int main(int argc, char ** argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitWindowSize(400, 400);
+	glutInitWindowPosition(300, 300);
+	glutCreateWindow("Armughan");
+	glutDisplayFunc(display);
+	glutTimerFunc(100,timer,0);
+	init();
+	glutMainLoop();
+
+	return 0;
+}

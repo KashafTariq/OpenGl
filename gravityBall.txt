@@ -1,0 +1,53 @@
+#include <stdlib.h>
+#include <GL\glew.h>
+#include <GL\freeglut.h>
+#include <math.h>
+#include <iostream>
+float x=0.0;
+float y = 0.0;
+float t = 0.0;
+
+void myinit()
+{
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0,10, 0, 10);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+
+void display() {
+	glClear(GL_COLOR_BUFFER_BIT);
+	glPointSize(5.0f);
+	glBegin(GL_POINTS);
+	glColor3f(0.0f,1.0f,0.0f);
+	glVertex2f(x,y);
+	glEnd();
+	glFlush();
+	
+}
+
+void func(int value) {
+	t = t + 0.01;
+	y = 10 * sin(70 * (3.14/180) )*t + 0.5*(-9.8)*t*t;
+	x = 10 * cos(70 * (3.14/180))*t;
+	glutPostRedisplay();
+	if (y>0) glutTimerFunc(10, func, 0);
+}
+
+int main(int argc, char ** argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+	glutInitWindowSize(500, 500);
+	glutInitWindowPosition(200, 200);
+	glutCreateWindow("gravityBall");
+	glutDisplayFunc(display);
+	myinit();
+	glutTimerFunc(10, func, 0);
+	glutMainLoop(); 
+
+	return 0;
+}
+
